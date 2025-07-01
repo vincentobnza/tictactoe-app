@@ -141,7 +141,10 @@ export function TicTacToe() {
 
   const getGameStatusMessage = () => {
     if (winner === "Draw") return "It's a draw! 🤝";
-    return `Player ${currentPlayer}'s turn`;
+    if (winner) return `${winner === "X" ? "🐣" : "🍆"} Player ${winner} wins!`;
+    return `${
+      currentPlayer === "X" ? "🐣" : "🍆"
+    } Player ${currentPlayer}'s turn`;
   };
 
   const getGameStatusBadgeVariant = () => {
@@ -203,7 +206,7 @@ export function TicTacToe() {
                       onClick={() => handleCellClick(index)}
                       disabled={!!cell || !!winner}
                     >
-                      {cell}
+                      {cell === "X" ? "🐣" : cell === "O" ? "🍆" : ""}
                     </Button>
                   ))}
                 </div>
@@ -248,7 +251,9 @@ export function TicTacToe() {
               <CardContent className="space-y-4">
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">Player X Wins:</span>
+                    <span className="text-sm font-medium flex items-center gap-2">
+                      🐣 Player X Wins:
+                    </span>
                     <Badge
                       variant="default"
                       className="bg-blue-500/20 text-blue-500 border-blue-500/30"
@@ -257,7 +262,9 @@ export function TicTacToe() {
                     </Badge>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium">Player O Wins:</span>
+                    <span className="text-sm font-medium flex items-center gap-2">
+                      🍆 Player O Wins:
+                    </span>
                     <Badge
                       variant="default"
                       className="bg-red-500/20 text-red-500 border-red-500/30"
@@ -295,8 +302,8 @@ export function TicTacToe() {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold">
-                      X
+                    <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-xl">
+                      🐣
                     </div>
                     <span className="font-medium">Player X</span>
                   </div>
@@ -315,8 +322,8 @@ export function TicTacToe() {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center text-red-500 font-bold">
-                      O
+                    <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center text-xl">
+                      🍆
                     </div>
                     <span className="font-medium">Player O</span>
                   </div>
@@ -335,16 +342,26 @@ export function TicTacToe() {
         <Dialog open={showWinnerModal} onOpenChange={setShowWinnerModal}>
           <DialogContent className="sm:max-w-md">
             <DialogHeader className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16  text-center items-center justify-center text-6xl">
-                {winner === "Draw" ? <>🤝</> : <>🏆</>}
+              <div className="mx-auto mb-4 flex h-16 w-16 text-center items-center justify-center text-6xl">
+                {winner === "Draw" ? (
+                  <>🤝</>
+                ) : winner === "X" ? (
+                  <>🐣</>
+                ) : (
+                  <>�</>
+                )}
               </div>
               <DialogTitle className="text-2xl font-bold text-center">
-                {winner === "Draw" ? "It's a Draw!" : `Player ${winner} Wins!`}
+                {winner === "Draw"
+                  ? "It's a Draw!"
+                  : `${winner === "X" ? "🐣" : "🍆"} Player ${winner} Wins!`}
               </DialogTitle>
               <DialogDescription className="mt-4 text-md text-center">
                 {winner === "Draw"
                   ? "Great game! Both players played well."
-                  : `Congratulations! Player ${winner} has won this round.`}
+                  : `Congratulations! ${
+                      winner === "X" ? "🐣" : "🍆"
+                    } Player ${winner} has won this round.`}
               </DialogDescription>
             </DialogHeader>
             <DialogFooter className="mt-10 sm:justify-center gap-2">
